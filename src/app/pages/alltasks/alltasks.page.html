@@ -58,7 +58,7 @@
         <ion-button size="small" fill="outline" color="primary" style="flex:1;" (click)="edit(t)">
           <ion-icon name="create-outline" slot="start"></ion-icon> Edit
         </ion-button>
-        <ion-button size="small" fill="outline" color="success" style="flex:1;" (click)="markDone(t)" *ngIf="t.status?.toLowerCase()!== 'done'">
+        <ion-button size="small" fill="outline" color="success" style="flex:1;" (click)="markDone(t)" *ngIf="t.status.toLowerCase() !== 'done'">
           <ion-icon name="checkmark-outline" slot="start"></ion-icon> Done
         </ion-button>
         <ion-button size="small" fill="outline" color="danger" (click)="deleteTask(t.id)">
