@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>All Students Tasks</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" style="--background: #110f0f;">
+
+  <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+    <ion-card style="flex:1; text-align:center; border-radius:14px; margin:0; padding:10px;">
+      <h2 style="margin:0; font-weight:bold;">{{ taskService.totalCount() }}</h2>
+      <p style="margin:0; font-size:12px; color:#666;">Total</p>
+    </ion-card>
+    <ion-card style="flex:1; text-align:center; border-radius:14px; margin:0; padding:10px; border-top:3px solid #ffc409;">
+      <h2 style="margin:0; font-weight:bold;">{{ taskService.pendingCount() }}</h2>
+      <p style="margin:0; font-size:12px; color:#666;">Pending</p>
+    </ion-card>
+    <ion-card style="flex:1; text-align:center; border-radius:14px; margin:0; padding:10px; border-top:3px solid #3880ff;">
+      <h2 style="margin:0; font-weight:bold;">{{ taskService.doingCount() }}</h2>
+      <p style="margin:0; font-size:12px; color:#666;">Doing</p>
+    </ion-card>
+    <ion-card style="flex:1; text-align:center; border-radius:14px; margin:0; padding:10px; border-top:3px solid #2dd36f;">
+      <h2 style="margin:0; font-weight:bold;">{{ taskService.doneCount() }}</h2>
+      <p style="margin:0; font-size:12px; color:#666;">Done</p>
+    </ion-card>
+  </div>
+
+  <ion-searchbar [(ngModel)]="searchText" placeholder="Search title or subject..." style="--border-radius: 12px; padding: 0;"></ion-searchbar>
+
+<div style="display:flex; gap:8px; overflow-x:auto; padding:10px 0;">
+  <ion-chip [color]="filter==='all' ? 'primary' : 'medium'" (click)="filter='all'">
+    <ion-icon name="albums-outline"></ion-icon><ion-label>All</ion-label>
+  </ion-chip>
+  <ion-chip [color]="filter==='pending' ? 'warning' : 'medium'" (click)="filter='pending'">
+    <ion-icon name="time-outline"></ion-icon><ion-label>Pending</ion-label>
+  </ion-chip>
+  <ion-chip [color]="filter==='doing' ? 'primary' : 'medium'" (click)="filter='doing'">
+    <ion-icon name="hourglass-outline"></ion-icon><ion-label>Doing</ion-label>
+  </ion-chip>
+  <ion-chip [color]="filter==='done' ? 'success' : 'medium'" (click)="filter='done'">
+    <ion-icon name="checkmark-done-outline"></ion-icon><ion-label>Done</ion-label>
+  </ion-chip>
+</div>
+
+  <ion-card *ngFor="let t of filteredTasks" style="border-radius:16px; margin:12px 0;">
+    <ion-card-content>
+      <div style="display:flex; justify-content:space-between; align-items:start;">
+        <h2 style="margin:0; font-weight:bold; font-size:16px;">{{ t.title }}</h2>
+        <ion-chip [color]="getColor(t.status)" style="margin:0;">{{ t.status }}</ion-chip>
+      </div>
+
+      <p style="margin:8px 0; color:#666; display:flex; gap:12px;">
+        <span><ion-icon name="book-outline"></ion-icon> {{ t.subject }}</span>
+        <span><ion-icon name="calendar-outline"></ion-icon> {{ t.deadline }}</span>
+     </p>
+
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <ion-button size="small" fill="outline" color="primary" style="flex:1;" (click)="edit(t)">
+          <ion-icon name="create-outline" slot="start"></ion-icon> Edit
+        </ion-button>
+        <ion-button size="small" fill="outline" color="success" style="flex:1;" (click)="markDone(t)" *ngIf="t.status?.toLowerCase()!== 'done'">
+          <ion-icon name="checkmark-outline" slot="start"></ion-icon> Done
+        </ion-button>
+        <ion-button size="small" fill="outline" color="danger" (click)="deleteTask(t.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-tab-bar slot="bottom">
+  <ion-tab-button tab="home" routerLink="/home">
+    <ion-icon name="grid-outline"></ion-icon>
+    <ion-label>Home</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="tasks" routerLink="/tasks">
+    <ion-icon name="list-outline"></ion-icon>
+    <ion-label>Tasks</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="alltasks" routerLink="/alltasks">
+    <ion-icon name="reader-outline"></ion-icon>
+    <ion-label>All Tasks</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
