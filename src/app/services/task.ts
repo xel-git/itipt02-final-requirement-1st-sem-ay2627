@@ -15,14 +15,15 @@ export interface Task {
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   
+  editingTask: Task | null = null;
   private apiUrl = 'http://127.0.0.1:3000/task'; 
 
   private tasksSignal = signal<Task[]>([]);
   tasks = this.tasksSignal.asReadonly();
-
-  pendingCount = computed(() => this.tasks().filter(t => t.status === 'pending').length);
-  doingCount = computed(() => this.tasks().filter(t => t.status === 'doing').length);
-  doneCount = computed(() => this.tasks().filter(t => t.status === 'done').length);
+  
+  pendingCount = computed(() => this.tasks().filter(t => t.status?.toLowerCase() === 'pending').length);
+  doingCount = computed(() => this.tasks().filter(t => t.status?.toLowerCase() === 'doing').length);
+  doneCount = computed(() => this.tasks().filter(t => t.status?.toLowerCase() === 'done').length);
   totalCount = computed(() => this.tasks().length);
 
   constructor(private http: HttpClient) {}
@@ -46,12 +47,12 @@ export class TaskService {
     );
   }
    updateTask(id: any, task: any){
-  return this.http.put(`${this.apiUrl}?id=${id}`, task).pipe(
+  return this.http.put(`${this.apiUrl}/${id}`, task).pipe(
     tap(()=>this.fetchTasks())
   );
 }
   deleteTask(id: any){
-  return this.http.delete(`${this.apiUrl}?id=${id}`).pipe(
+  return this.http.delete(`${this.apiUrl}/${id}`).pipe(
     tap(()=>this.fetchTasks())
   );
 }
