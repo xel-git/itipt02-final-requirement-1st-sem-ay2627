@@ -1,21 +1,66 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Blank </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title><ion-icon name="grid-outline"></ion-icon>Home</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding">
+  <h1 style="font-weight:bold"><ion-icon name="layers-outline"></ion-icon> Student Task and Deadline Tracker</h1>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card><ion-card-content style="text-align:center">
+          <ion-icon name="time-outline" size="large" color="medium"></ion-icon>
+          <h2 style="font-size:28px; font-weight:bold">{{ taskService.pendingCount() }}</h2>
+          <p>Pending</p>
+        </ion-card-content></ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card><ion-card-content style="text-align:center">
+          <ion-icon name="hourglass-outline" size="large" color="warning"></ion-icon>
+          <h2 style="font-size:28px; font-weight:bold">{{ taskService.doingCount() }}</h2>
+          <p>Doing</p>
+        </ion-card-content></ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card><ion-card-content style="text-align:center">
+          <ion-icon name="checkmark-done-outline" size="large" color="success"></ion-icon>
+          <h2 style="font-size:28px; font-weight:bold">{{ taskService.doneCount() }}</h2>
+          <p>Done</p>
+        </ion-card-content></ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card color="primary">
+          <ion-card-content style="text-align:center">
+          <ion-icon name="layers-outline" size="large"></ion-icon>
+          <h2 style="font-size:28px; font-weight:bold">{{ taskService.totalCount() }}</h2>
+          <p>Total Tasks</p>
+        </ion-card-content>
+      </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>
-      Start with Ionic
-      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
-    </p>
-  </div>
+  <ion-button expand="block" routerLink="/tasks">
+    <ion-icon name="add-outline" slot="start"></ion-icon> Create Task </ion-button>
+  <ion-button fill="outline" expand="block" color="primary" routerLink="/alltasks">
+    <ion-icon name="eye-outline" slot="start"></ion-icon> View All tasks ({{ taskService.totalCount() }})
+  </ion-button>
 </ion-content>
+
+<ion-tab-bar slot="bottom">
+  <ion-tab-button tab="home" routerLink="/home">
+    <ion-icon name="grid-outline"></ion-icon>
+    <ion-label>Home</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="tasks" routerLink="/tasks">
+    <ion-icon name="list-outline"></ion-icon>
+    <ion-label>Tasks</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="alltasks" routerLink="/alltasks">
+    <ion-icon name="reader-outline"></ion-icon>
+    <ion-label>All Tasks</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
