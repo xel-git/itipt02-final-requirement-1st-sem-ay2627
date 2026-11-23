@@ -5,7 +5,6 @@
 </ion-header>
 
 <ion-content class="ion-padding" style="--background:#110f0f;">
-
   <div style="display: flex; gap: 10px; margin-bottom: 12px;">
     <ion-card style="flex:1; text-align: center; border-radius: 14px; margin: 0; padding: 10px;">
       <h2 style="margin:0; font-weight: bold;">{{ taskService.totalCount() }}</h2>
@@ -27,41 +26,40 @@
 
   <ion-card style="border-radius: 16px;">
     <ion-card-content>
-      <h2 style="font-weight:bold; margin-bottom: 10px;">{{ isEditMode ? 'UPDATE TASKS' : 'CREATE TASKS' }}</h2>
+      <h2 style="font-weight:bold; margin-bottom: 10px;">{{ editId ? 'UPDATE TASKS' : 'CREATE TASKS' }}</h2>
 
       <ion-item>
         <ion-icon name="document-text-outline" slot="start"></ion-icon>
-        <ion-input label="Title" labelPlacement="stacked" [(ngModel)]="title" placeholder="Ex: Final Project"></ion-input>
+        <ion-input label="Title" labelPlacement="stacked" [(ngModel)]="title" [ngModelOptions]="{standalone: true}" placeholder="Ex: Final Project"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon name="book-outline" slot="start"></ion-icon>
-        <ion-input label="Subject" labelPlacement="stacked" [(ngModel)]="subject" placeholder="Ex: IT-IPT02"></ion-input>
+        <ion-input label="Subject" labelPlacement="stacked" [(ngModel)]="subject" [ngModelOptions]="{standalone: true}" placeholder="Ex: IT-IPT02"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon name="calendar-outline" slot="start"></ion-icon>
-        <ion-input label="Deadline" type="date" labelPlacement="stacked" [(ngModel)]="deadline"></ion-input>
+        <ion-input label="Deadline" type="date" labelPlacement="stacked" [(ngModel)]="deadline" [ngModelOptions]="{standalone: true}"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon name="flag-outline" slot="start"></ion-icon>
-        <ion-select label="Status" [(ngModel)]="status">
-          <ion-select-option value="Pending">Pending</ion-select-option>
-          <ion-select-option value="Doing">Doing</ion-select-option>
-          <ion-select-option value="Done">Done</ion-select-option>
+        <!-- BINAGO KO - lowercase na values para tumugma sa filter at count -->
+        <ion-select label="Status" [(ngModel)]="status" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="pending">Pending</ion-select-option>
+          <ion-select-option value="doing">Doing</ion-select-option>
+          <ion-select-option value="done">Done</ion-select-option>
         </ion-select>
       </ion-item>
 
       <div style="display: flex; gap: 10px; margin-top: 16px;">
-        <ion-button fill="outline" color="medium" style="flex:1;" (click)="reset()">
-          <ion-icon name="trash-outline" slot="start"></ion-icon>
-          Clear
+        <ion-button type="button" fill="outline" color="medium" style="flex:1;" (click)="clearForm()">
+          <ion-icon name="trash-outline" slot="start"></ion-icon> Clear
         </ion-button>
-
-        <ion-button color="primary" style="flex:2;" (click)="saveTask()">
-          <ion-icon [name]="isEditMode ? 'create-outline' : 'add-circle-outline'" slot="start"></ion-icon>
-          {{ isEditMode ? 'UPDATE TASK' : 'CREATE TASK' }}
+        <ion-button type="button" color="primary" style="flex:2;" (click)="saveTask()">
+          <ion-icon [name]="editId ? 'create-outline' : 'add-circle-outline'" slot="start"></ion-icon>
+          {{ editId ? 'UPDATE TASK' : 'CREATE TASK' }}
         </ion-button>
       </div>
 
@@ -70,7 +68,6 @@
           <ion-icon name="eye-outline" slot="start"></ion-icon> View All tasks ({{ taskService.totalCount() }})
         </ion-button>
       </div>
-
     </ion-card-content>
   </ion-card>
 </ion-content>
@@ -80,12 +77,10 @@
     <ion-icon name="grid-outline"></ion-icon>
     <ion-label>Home</ion-label>
   </ion-tab-button>
-
   <ion-tab-button tab="tasks" routerLink="/tasks">
     <ion-icon name="list-outline"></ion-icon>
     <ion-label>Tasks</ion-label>
   </ion-tab-button>
-
   <ion-tab-button tab="alltasks" routerLink="/alltasks">
     <ion-icon name="reader-outline"></ion-icon>
     <ion-label>All Tasks</ion-label>
