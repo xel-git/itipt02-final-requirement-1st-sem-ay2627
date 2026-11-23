@@ -16,6 +16,10 @@ export class HomePage implements OnInit {
   constructor(public taskService: TaskService) {
     addIcons({ checkmarkDoneOutline, gridOutline, listOutline, readerOutline, personOutline, addOutline, timeOutline, hourglassOutline, trophyOutline, layersOutline });
   }
-  ngOnInit() { this.taskService.fetchTasks(); }
-  ionViewWillEnter() { this.taskService.fetchTasks(); }
+  ngOnInit() {
+   this.taskService.fetchTasks();
+   }
+  ionViewWillEnter() {
+   this.taskService.fetchTasks(); 
+  }
 }
